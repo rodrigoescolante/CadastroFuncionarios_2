@@ -2,8 +2,8 @@
 
 A API possui 3 camadas:
 
-Camada Funcionarios - camada de interface responsável pela interação com usuário final, configuração dos controladores, etc.
-Camada Serviço - contém os métodos de validação dos métodos de escrita das informações no banco de dados.
+Camada Interface- camada de interface responsável pela interação com usuário final, configuração dos controladores, etc.
+Camada Aplicação - contém os métodos de validação dos métodos de escrita das informações no banco de dados.
 Camada Database - contém as classes para operações no banco de dados sql usando EF core.
 
 Operação da API:
