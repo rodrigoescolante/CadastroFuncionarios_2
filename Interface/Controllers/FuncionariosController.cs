@@ -67,18 +67,18 @@ namespace CadastroFuncionarios.Controller
         /// Modifica o cadastro de um funcionário no banco de dados.
         /// </summary>
         ///<remarks>
-        /// Preencha os campos com os dados do funcionário que deseja modificar o cadastro.
+        /// Preencha os campos com os dados do funcionário obtidos pelo método GET, modificando os dados que deseja no cadastro.
         /// </remarks>
         [HttpPut(Name = "PutFuncionarios"), Authorize]
         public async Task<IActionResult> PutFuncionarios([Required] int id, [Required] string nome, [Required] int idade, [Required] string genero, [Required] string email)
         {
             Funcionario funcionarios = new();
-            var resultado = FuncionarioValidator.Update(id, funcionarios, _context);
             funcionarios.ID = id;
             funcionarios.Nome = nome;
             funcionarios.Idade = idade;
             funcionarios.Genero = genero;
             funcionarios.Email = email;
+            var resultado = FuncionarioValidator.Update(id, funcionarios, _context);
             if (!resultado.IsNullOrEmpty())
             {
                 return BadRequest(resultado);
@@ -108,7 +108,6 @@ namespace CadastroFuncionarios.Controller
                 funcionarios.Genero = genero;
                 funcionarios.Email = email;
                 var resultado = FuncionarioValidator.Cadastro(funcionarios, _context);
-
                 if (!resultado.IsNullOrEmpty())
                 {
                     return BadRequest(resultado);

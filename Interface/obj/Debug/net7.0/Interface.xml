@@ -37,7 +37,7 @@
              Modifica o cadastro de um funcionário no banco de dados.
              </summary>
             <remarks>
-             Preencha os campos com os dados do funcionário que deseja modificar o cadastro.
+             Preencha os campos com os dados do funcionário obtidos pelo método GET, modificando os dados que deseja no cadastro.
              </remarks>
         </member>
         <member name="M:CadastroFuncionarios.Controller.FuncionariosController.PostFuncionarios(System.Int32,System.String,System.Int32,System.String,System.String)">
