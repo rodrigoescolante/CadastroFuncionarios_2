@@ -95,27 +95,22 @@ namespace CadastroFuncionarios.Controller
         /// <summary>
         /// Cadastra um novo funcionário no banco de dados.
         /// </summary>
-        /// <remarks>
-        /// Exemplo de requisição:
-        /// 
-        ///     {
-        ///        "id": 1,
-        ///        "Nome": "Item #1",
-        ///        "Idade": 23,
-        ///        "Genero" "Masculino",
-        ///        "Email": "teste@teste.com"
-        ///     }
-        ///
-        /// </remarks>
         [HttpPost(Name = "PostFuncionarios"), Authorize]
-        public async Task<ActionResult<Funcionario>> PostFuncionarios(Funcionario funcionarios)
+        public async Task<ActionResult<Funcionario>> PostFuncionarios(int id, string nome, int idade, string genero,string email)
         {
-            
+                Funcionario funcionarios = new();
+                funcionarios.ID = id;
+                funcionarios.Nome = nome;
+                funcionarios.Idade = idade; 
+                funcionarios.Genero = genero;
+                funcionarios.Email = email;
                 var resultado = FuncionarioValidator.Cadastro(funcionarios, _context);
 
+            try
+            {
                 if (!resultado.IsNullOrEmpty())
                 {
-                    return BadRequest(resultado); 
+                    return BadRequest(resultado);
                 }
                 else
                 {
@@ -124,6 +119,11 @@ namespace CadastroFuncionarios.Controller
                     CreatedAtAction("GetFuncionarios", new { id = funcionarios.ID }, funcionarios);
                     return BadRequest("Funcionário cadastrado com sucesso!");
                 }
+            }
+            catch(Exception ex)
+            {
+                return BadRequest("Preencha todos os campos do formulário.");
+            }
         }
 
         // DELETE: api/Funcionarios/5

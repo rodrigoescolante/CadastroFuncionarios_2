@@ -4,19 +4,20 @@
         <name>Interface</name>
     </assembly>
     <members>
-        <member name="M:LoginController.Login(LoginDTO)">
-             <summary>
-             Autentica usuário para operações de escrita no banco de dados.
-             </summary>
-             <remarks>
-             Exemplo de requisição:
-             
-                 {
-                    "username": "admin",
-                    "password": "admin"
-                 }
-            
-             </remarks>
+        <member name="M:LoginController.Login(System.String,System.String)">
+            <summary>
+            Autentica usuário para operações de escrita no banco de dados.
+            </summary>
+        </member>
+        <member name="M:LoginController.CadastroUsuarios(System.String,System.String,System.String)">
+            <summary>
+            Cadastra novos usuários para operações de escrita no banco de dados.
+            </summary>
+        </member>
+        <member name="M:LoginController.DeleteUsuarios(System.String)">
+            <summary>
+            Exclui usuários de operações de escrita no banco de dados.
+            </summary>    
         </member>
         <member name="M:CadastroFuncionarios.Controller.FuncionariosController.GetFuncionarios">
             <summary>
@@ -45,22 +46,10 @@
             
              </remarks>
         </member>
-        <member name="M:CadastroFuncionarios.Controller.FuncionariosController.PostFuncionarios(CadastroFuncionarios.Classes.Funcionario)">
-             <summary>
-             Cadastra um novo funcionário no banco de dados.
-             </summary>
-             <remarks>
-             Exemplo de requisição:
-             
-                 {
-                    "id": 1,
-                    "Nome": "Item #1",
-                    "Idade": 23,
-                    "Genero" "Masculino",
-                    "Email": "teste@teste.com"
-                 }
-            
-             </remarks>
+        <member name="M:CadastroFuncionarios.Controller.FuncionariosController.PostFuncionarios(System.Int32,System.String,System.Int32,System.String,System.String)">
+            <summary>
+            Cadastra um novo funcionário no banco de dados.
+            </summary>
         </member>
         <member name="M:CadastroFuncionarios.Controller.FuncionariosController.DeleteFuncionarios(System.Int32)">
             <summary>
