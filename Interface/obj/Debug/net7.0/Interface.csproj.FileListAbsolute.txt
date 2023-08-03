@@ -235,3 +235,7 @@ C:\Users\Rodrigo\source\repos\rodrigoescolante\CadastroFuncionarios_2\Interface\
 C:\Users\Rodrigo\source\repos\rodrigoescolante\CadastroFuncionarios_2\Interface\obj\Debug\net7.0\Interface.pdb
 C:\Users\Rodrigo\source\repos\rodrigoescolante\CadastroFuncionarios_2\Interface\obj\Debug\net7.0\Interface.genruntimeconfig.cache
 C:\Users\Rodrigo\source\repos\rodrigoescolante\CadastroFuncionarios_2\Interface\obj\Debug\net7.0\ref\Interface.dll
+C:\Users\rodri\Source\Repos\rodrigoescolante\CadastroFuncionarios_2\Interface\bin\Debug\net7.0\System.Net.Http.Formatting.dll
+C:\Users\rodri\Source\Repos\rodrigoescolante\CadastroFuncionarios_2\Interface\bin\Debug\net7.0\System.Web.Http.dll
+C:\Users\rodri\Source\Repos\rodrigoescolante\CadastroFuncionarios_2\Interface\bin\Debug\net7.0\Newtonsoft.Json.dll
+C:\Users\rodri\Source\Repos\rodrigoescolante\CadastroFuncionarios_2\Interface\bin\Debug\net7.0\Newtonsoft.Json.Bson.dll

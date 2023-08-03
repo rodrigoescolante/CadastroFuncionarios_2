@@ -5,6 +5,7 @@ using Funcionario = CadastroFuncionarios.Classes.Funcionario;
 using Microsoft.AspNetCore.Authorization;
 using Microsoft.IdentityModel.Tokens;
 using Serviço.Models;
+using System.ComponentModel.DataAnnotations;
 
 namespace CadastroFuncionarios.Controller
 {
@@ -43,6 +44,9 @@ namespace CadastroFuncionarios.Controller
         /// <summary>
         /// Mostra as informações de um funcionário cadastrado no banco de dados.
         /// </summary>
+        /// /// <remarks>
+        /// Informe o ID do funcionário obter informações.
+        /// </remarks>
         [HttpGet("{id}")]
         [AllowAnonymous]
         public async Task<ActionResult<Funcionario>> GetFuncionarios(int id)
@@ -63,40 +67,39 @@ namespace CadastroFuncionarios.Controller
         /// Modifica o cadastro de um funcionário no banco de dados.
         /// </summary>
         ///<remarks>
-        /// Exemplo de requisição:
-        /// 
-        ///     {
-        ///        "id": 1,
-        ///        "Nome": "Item #1",
-        ///        "Idade": 23,
-        ///        "Genero" "Masculino",
-        ///        "Email": "teste@teste.com"
-        ///     }
-        ///
+        /// Preencha os campos com os dados do funcionário que deseja modificar o cadastro.
         /// </remarks>
         [HttpPut(Name = "PutFuncionarios"), Authorize]
-        public async Task<IActionResult> PutFuncionarios(int id, Funcionario funcionarios)
+        public async Task<IActionResult> PutFuncionarios([Required] int id, [Required] string nome, [Required] int idade, [Required] string genero, [Required] string email)
         {
+            Funcionario funcionarios = new();
             var resultado = FuncionarioValidator.Update(id, funcionarios, _context);
-
-                if (!resultado.IsNullOrEmpty())
-                {
-                    return BadRequest(resultado);
-                }
-                else
-                {
-                    _context.Entry(funcionarios).State = EntityState.Modified;
-                    await _context.SaveChangesAsync();
-                    return BadRequest("Cadastro alterado com sucesso.");     
-                }            
+            funcionarios.ID = id;
+            funcionarios.Nome = nome;
+            funcionarios.Idade = idade;
+            funcionarios.Genero = genero;
+            funcionarios.Email = email;
+            if (!resultado.IsNullOrEmpty())
+            {
+                return BadRequest(resultado);
+            }
+            else
+            {
+                _context.Entry(funcionarios).State = EntityState.Modified;
+                await _context.SaveChangesAsync();
+                return BadRequest("Cadastro alterado com sucesso.");
+            }           
         }
 
         // POST: api/Funcionarios
         /// <summary>
         /// Cadastra um novo funcionário no banco de dados.
         /// </summary>
+        /// <remarks>
+        /// Preencha os campos com os dados do funcionário que deseja cadastrar no banco de dados.
+        /// </remarks>
         [HttpPost(Name = "PostFuncionarios"), Authorize]
-        public async Task<ActionResult<Funcionario>> PostFuncionarios(int id, string nome, int idade, string genero,string email)
+        public async Task<ActionResult<Funcionario>> PostFuncionarios([Required] int id, [Required] string nome, [Required] int idade, [Required] string genero, [Required] string email)
         {
                 Funcionario funcionarios = new();
                 funcionarios.ID = id;
@@ -106,8 +109,6 @@ namespace CadastroFuncionarios.Controller
                 funcionarios.Email = email;
                 var resultado = FuncionarioValidator.Cadastro(funcionarios, _context);
 
-            try
-            {
                 if (!resultado.IsNullOrEmpty())
                 {
                     return BadRequest(resultado);
@@ -119,17 +120,15 @@ namespace CadastroFuncionarios.Controller
                     CreatedAtAction("GetFuncionarios", new { id = funcionarios.ID }, funcionarios);
                     return BadRequest("Funcionário cadastrado com sucesso!");
                 }
-            }
-            catch(Exception ex)
-            {
-                return BadRequest("Preencha todos os campos do formulário.");
-            }
-        }
+         }
 
         // DELETE: api/Funcionarios/5
         /// <summary>
         /// Deleta um funcionário do banco de dados.
         /// </summary>
+        /// /// <remarks>
+        /// Informe o ID do funcionário que deseja excluir do banco de dados.
+        /// </remarks>
         [HttpDelete(Name = "DeleteFuncionarios"), Authorize]
         public async Task<IActionResult> DeleteFuncionarios(int id)
         {

@@ -8,3 +8,11 @@ public class Funcionario
     public string? Genero { get; set; }
     public string? Email { get; set; }
 }
+
+public class LoginDTO
+{
+    public int ID { get; set; }
+    public string Usuario { get; set; }
+    public string Senha { get; set; }
+
+}

@@ -46,6 +46,24 @@ namespace CadastroFuncionarios.Migrations
 
                     b.ToTable("Funcionarios");
                 });
+            modelBuilder.Entity("CadastroFuncionarios.Classes.Users", b =>
+            {
+                b.Property<int>("ID")
+                    .ValueGeneratedOnAdd()
+                    .HasColumnType("int");
+
+                SqlServerPropertyBuilderExtensions.UseIdentityColumn(b.Property<int>("ID"));
+
+                b.Property<string>("Usuario")
+                    .HasColumnType("nvarchar(max)");
+
+                b.Property<string>("Senha")
+                    .HasColumnType("nvarchar(max)");
+
+                b.HasKey("ID");
+
+                b.ToTable("Users");
+            });
 #pragma warning restore 612, 618
         }
     }
