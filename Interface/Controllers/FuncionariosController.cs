@@ -133,7 +133,7 @@ namespace CadastroFuncionarios.Controller
         {
             var resultado = FuncionarioValidator.FuncionariosExists(id, _context);
                 if (!resultado.IsNullOrEmpty())
-            {
+                {
                     return BadRequest(resultado);
                 }
                 else
@@ -145,4 +145,5 @@ namespace CadastroFuncionarios.Controller
                 }
         }
     }
+
 }

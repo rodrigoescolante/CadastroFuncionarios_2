@@ -1,4 +1,7 @@
-﻿namespace CadastroFuncionarios.Classes;
+﻿using System.ComponentModel.DataAnnotations;
+using System.ComponentModel.DataAnnotations.Schema;
+
+namespace CadastroFuncionarios.Classes;
 
 public class Funcionario
 {

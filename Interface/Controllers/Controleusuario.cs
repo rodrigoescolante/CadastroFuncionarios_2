@@ -1,5 +1,6 @@
 ﻿using Aplicação.Models;
 using CadastroFuncionarios.Classes;
+using CadastroFuncionarios.Context;
 using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.IdentityModel.Tokens;
@@ -11,17 +12,25 @@ using System.Text;
 [Route("api/[controller]")]
 [ApiController]
 public class LoginController : ControllerBase
-{
-/// <summary>
-/// Autentica usuário para operações de escrita no banco de dados.
-/// </summary>
-[HttpPost, Route("login")]
+    {
+    private readonly Db_Funcionarios _context;
+
+    public LoginController(Db_Funcionarios context)
+    {
+        _context = context;
+    }
+
+    /// <summary>
+    /// Autentica usuário para operações de escrita no banco de dados.
+    /// </summary>
+    [HttpPost, Route("login")]
 public IActionResult Login([FromQuery(Name = "Username"), Required] string username, [FromQuery(Name = "Senha"), Required] string password)
     {
         LoginDTO loginDTO = new();
         loginDTO.Usuario = username;
         loginDTO.Senha = password;
-        string? senha;        
+        string? senha;
+        Usuarios.BuscarUsuarios(Usuarios.Credenciais, _context);
         Usuarios.Credenciais.TryGetValue(loginDTO.Usuario, out senha);
 
         if (string.IsNullOrEmpty(loginDTO.Usuario) ||
@@ -56,7 +65,8 @@ public IActionResult Login([FromQuery(Name = "Username"), Required] string usern
     [HttpPost(Name = "CadastroUsuarios"), Authorize]
     public IActionResult CadastroUsuarios([FromQuery(Name = "Username"), Required] string username, [FromQuery(Name = "Digite uma senha"),Required] string password1, [FromQuery(Name = "Digite novamente a senha"), Required] string password2)
     {
-            Usuarios usuario = new();
+            
+            var usuario = new Usuarios(_context);
             usuario.Login = username;
             usuario.Password1= password1;
             usuario.Password2= password2;
@@ -68,7 +78,7 @@ public IActionResult Login([FromQuery(Name = "Username"), Required] string usern
     [HttpDelete(Name = "DeleteUsuarios"), Authorize]
     public IActionResult DeleteUsuarios([FromQuery(Name = "Username"), Required] string username)
     {
-        var user = new Usuarios();
-        return Ok(user.Excluir(username));        
+        var usuario = new Usuarios(_context);
+        return Ok(usuario.Excluir(username));        
     }
 }
