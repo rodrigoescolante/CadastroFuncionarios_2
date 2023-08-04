@@ -1,8 +1,8 @@
 {
   "version": 2,
-  "dgSpecHash": "56b1a0chu4iCsLBZewqSltIO9S4+gx1H4r25zJA6+O86YOSY0ZNXqMyK/vHcdWZqJM2tDRPn82Q3g/35b36fNw==",
+  "dgSpecHash": "vdrxQw8hTKDMVteCulFWaQ9OYjSqs6Oo/9D4qO91Srn4IHkL32i4dJVrWZYYiFWFuVpLCHKKmHKksUfNEt5vBA==",
   "success": true,
-  "projectFilePath": "C:\\Users\\rodri\\Source\\Repos\\rodrigoescolante\\CadastroFuncionarios_2\\Interface\\Interface.csproj",
+  "projectFilePath": "C:\\Users\\rodri\\source\\repos\\rodrigoescolante\\CadastroFuncionarios_2\\Interface\\Interface.csproj",
   "expectedPackageFiles": [
     "C:\\Users\\rodri\\.nuget\\packages\\azure.core\\1.24.0\\azure.core.1.24.0.nupkg.sha512",
     "C:\\Users\\rodri\\.nuget\\packages\\azure.identity\\1.6.0\\azure.identity.1.6.0.nupkg.sha512",

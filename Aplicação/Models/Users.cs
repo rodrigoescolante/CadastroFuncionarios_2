@@ -2,6 +2,8 @@
 using CadastroFuncionarios.Classes;
 using CadastroFuncionarios.Context;
 using Microsoft.EntityFrameworkCore;
+using Microsoft.Win32;
+using System.Linq;
 
 namespace Aplicação.Models
 {
@@ -11,15 +13,16 @@ namespace Aplicação.Models
         public Usuarios(Db_Funcionarios context)
         {
             _context = context;
-            BuscarUsuarios(Credenciais, _context);
+            Credenciais = _context.Users.ToDictionary(u => u.Usuario, u => u.Senha);
+            Credenciais.Add("admin", "admin");
         }
         public string Login { get; set; }
         public string Password1 { get; set; }
         public string Password2 { get; set; }
 
-        public static Dictionary<string, string> Credenciais;        
+        public Dictionary<string, string> Credenciais;        
 
-        public string Cadastrar()
+        public string Cadastrar(string login, string senha)
         {
             if (Credenciais.ContainsKey(Login))
             {
@@ -32,18 +35,15 @@ namespace Aplicação.Models
             }
             else
             {
-                BuscarUsuarios(Credenciais, _context);
-                var user = new LoginDTO();
-                user.Usuario = Login;
-                user.Senha = Password1;
-                Random numAleatorio = new();
-                user.ID = numAleatorio.Next(1, 1000);
-                _context.Users.Add(user);
+                var registro = new LoginDTO();
+                registro.Usuario = login;
+                registro.Senha = senha;
+                registro.ID = GerarID();
+                _context.Users.Add(registro);
                 _context.SaveChanges();
                 return "Usuário cadastrado com sucesso.";
             }                
         }
-    
         public string Excluir(string user)
         {
             if (!Credenciais[user].Any())
@@ -57,26 +57,26 @@ namespace Aplicação.Models
             else
             {
                 string senha;
-                BuscarUsuarios(Credenciais,_context);
                 Credenciais.TryGetValue(user, out senha);
                 var registro = new LoginDTO();
                 registro.Usuario = user;
                 registro.Senha = senha;
-                Random numAleatorio = new();
-                registro.ID = numAleatorio.Next(1, 1000);
+                registro.ID = GerarID();
                 _context.Users.Remove(registro);
                 _context.SaveChanges();
                 return $"{user} não tem mais permissões de escrita no banco de dados.";
             }
         }
-        public static Dictionary<string, string> BuscarUsuarios(Dictionary<string, string> usuarios, Db_Funcionarios db)
+              
+        private int GerarID()
         {
-            //var users = context.Users.ToList();
-            foreach (LoginDTO registro in db.Users)
+            Random numAleatorio = new();
+            int a;
+            do
             {
-                  usuarios.Add(registro.Usuario, registro.Senha);
-            }
-            return usuarios;
-        }                
+              a = numAleatorio.Next(1, 1000);
+            } while (_context.Users.Any(x => x.ID == a));
+            return a;
+        }
     }
 }

@@ -26,38 +26,31 @@ public class LoginController : ControllerBase
     [HttpPost, Route("login")]
 public IActionResult Login([FromQuery(Name = "Username"), Required] string username, [FromQuery(Name = "Senha"), Required] string password)
     {
-        LoginDTO loginDTO = new();
-        loginDTO.Usuario = username;
-        loginDTO.Senha = password;
-        string? senha;
-        Usuarios.BuscarUsuarios(Usuarios.Credenciais, _context);
-        Usuarios.Credenciais.TryGetValue(loginDTO.Usuario, out senha);
-
-        if (string.IsNullOrEmpty(loginDTO.Usuario) ||
-            string.IsNullOrEmpty(loginDTO.Senha))
-            {
-                return BadRequest("Usuario ou senha não informados");
-            }
-        else if (loginDTO.Senha.Equals(senha))
-            {
-                var secretKey = new SymmetricSecurityKey
-                (Encoding.UTF8.GetBytes("cadastrodefuncionarios"));
-                var signinCredentials = new SigningCredentials
-               (secretKey, SecurityAlgorithms.HmacSha256);
-                var jwtSecurityToken = new JwtSecurityToken(
-                    issuer: "ABCXYZ",
-                    audience: "http://localhost:51398",
-                    claims: new List<Claim>(),
-                    expires: DateTime.Now.AddMinutes(30),
-                    signingCredentials: signinCredentials
-                );
-                var token = new JwtSecurityTokenHandler().WriteToken(jwtSecurityToken);
-                return Ok($"Usuário logado com sucesso. Copie o token {token} e utilize para autenticar seu acesso.");
-            }
+        Usuarios user = new(_context);
+        if (!user.Credenciais.ContainsKey(username))
+        {
+            return Unauthorized($"Usuário {username} não está cadastrado.");
+        }
+        else if (user.Credenciais[username] != password)
+        {
+            return Unauthorized("Senha incorreta. Verifique o campo digitado.");
+        }
         else
-            {
-                return Unauthorized("Usuário ou senha incorretos. Verifique os dados informados.");
-            }       
+        {
+            var secretKey = new SymmetricSecurityKey
+                (Encoding.UTF8.GetBytes("cadastrodefuncionarios"));
+            var signinCredentials = new SigningCredentials
+           (secretKey, SecurityAlgorithms.HmacSha256);
+            var jwtSecurityToken = new JwtSecurityToken(
+                issuer: "ABCXYZ",
+                audience: "http://localhost:51398",
+                claims: new List<Claim>(),
+                expires: DateTime.Now.AddMinutes(30),
+                signingCredentials: signinCredentials
+            );
+            var token = new JwtSecurityTokenHandler().WriteToken(jwtSecurityToken);
+            return Ok($"Usuário logado com sucesso. Copie o token {token} e utilize para autenticar seu acesso.");
+        }      
     }
     /// <summary>
     /// Cadastra novos usuários para operações de escrita no banco de dados.
@@ -70,7 +63,7 @@ public IActionResult Login([FromQuery(Name = "Username"), Required] string usern
             usuario.Login = username;
             usuario.Password1= password1;
             usuario.Password2= password2;
-            return Ok(usuario.Cadastrar());        
+            return Ok(usuario.Cadastrar(usuario.Login, usuario.Password1));        
     }
     /// <summary>
     /// Exclui usuários de operações de escrita no banco de dados.
