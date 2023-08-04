@@ -14,7 +14,7 @@
             Cadastra novos usuários para operações de escrita no banco de dados.
             </summary>
         </member>
-        <member name="M:LoginController.DeleteUsuarios(System.String)">
+        <member name="M:LoginController.DeleteUsuarios(System.String,System.String)">
             <summary>
             Exclui usuários de operações de escrita no banco de dados.
             </summary>    

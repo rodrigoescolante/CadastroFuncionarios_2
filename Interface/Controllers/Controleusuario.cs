@@ -26,12 +26,12 @@ public class LoginController : ControllerBase
     [HttpPost, Route("login")]
 public IActionResult Login([FromQuery(Name = "Username"), Required] string username, [FromQuery(Name = "Senha"), Required] string password)
     {
-        Usuarios user = new(_context);
-        if (!user.Credenciais.ContainsKey(username))
+        
+        if (Usuarios.VerificarUsuario(username,_context))
         {
             return Unauthorized($"Usuário {username} não está cadastrado.");
         }
-        else if (user.Credenciais[username] != password)
+        else if (Usuarios.VerificarSenha(username, password, _context))
         {
             return Unauthorized("Senha incorreta. Verifique o campo digitado.");
         }
@@ -56,22 +56,29 @@ public IActionResult Login([FromQuery(Name = "Username"), Required] string usern
     /// Cadastra novos usuários para operações de escrita no banco de dados.
     /// </summary>
     [HttpPost(Name = "CadastroUsuarios"), Authorize]
-    public IActionResult CadastroUsuarios([FromQuery(Name = "Username"), Required] string username, [FromQuery(Name = "Digite uma senha"),Required] string password1, [FromQuery(Name = "Digite novamente a senha"), Required] string password2)
+    public IActionResult CadastroUsuarios([FromQuery(Name = "Username"), Required] string username, [FromQuery(Name = "Digite uma senha"), Required] string password1, [FromQuery(Name = "Digite novamente a senha"), Required] string password2)
     {
-            
-            var usuario = new Usuarios(_context);
-            usuario.Login = username;
-            usuario.Password1= password1;
-            usuario.Password2= password2;
-            return Ok(usuario.Cadastrar(usuario.Login, usuario.Password1));        
+        var usuario = new Usuarios(_context);
+        usuario.Login = username;
+        usuario.Password1 = password1;
+        usuario.Password2 = password2;
+        LoginDTO user = new();
+        user.ID = usuario.GerarUI();
+        user.Usuario = username;
+        user.Senha = password1;
+        return Ok(usuario.Cadastrar(user));
     }
     /// <summary>
     /// Exclui usuários de operações de escrita no banco de dados.
     /// </summary>    
     [HttpDelete(Name = "DeleteUsuarios"), Authorize]
-    public IActionResult DeleteUsuarios([FromQuery(Name = "Username"), Required] string username)
+    public IActionResult DeleteUsuarios([FromQuery(Name = "Usuário"), Required] string username, [FromQuery(Name = "Senha cadastrada do Usuário"), Required] string password)
     {
         var usuario = new Usuarios(_context);
-        return Ok(usuario.Excluir(username));        
+        LoginDTO user = new();
+        user.Usuario = username;
+        user.Senha = password;
+        user.ID = usuario.ObterUI(username);
+        return Ok(usuario.Excluir(user));
     }
 }

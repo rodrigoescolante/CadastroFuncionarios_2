@@ -48,7 +48,7 @@ namespace CadastroFuncionarios.Migrations
                 });
             modelBuilder.Entity("CadastroFuncionarios.Classes.Users", b =>
             {
-                b.Property<int>("ID")
+                b.Property<int>("UI")
                     .ValueGeneratedOnAdd()
                     .HasColumnType("int");
 
@@ -60,7 +60,7 @@ namespace CadastroFuncionarios.Migrations
                 b.Property<string>("Senha")
                     .HasColumnType("nvarchar(max)");
 
-                b.HasKey("ID");
+                b.HasKey("UI");
 
                 b.ToTable("Users");
             });

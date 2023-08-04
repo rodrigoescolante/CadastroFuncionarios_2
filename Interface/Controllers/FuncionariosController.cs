@@ -117,7 +117,7 @@ namespace CadastroFuncionarios.Controller
                     _context.Funcionarios.Add(funcionarios);
                     await _context.SaveChangesAsync();
                     CreatedAtAction("GetFuncionarios", new { id = funcionarios.ID }, funcionarios);
-                    return BadRequest("Funcionário cadastrado com sucesso!");
+                    return Ok("Funcionário cadastrado com sucesso!");
                 }
          }
 
