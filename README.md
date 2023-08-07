@@ -10,3 +10,6 @@ Operação da API:
 
 Os métodos GET (leitura) são liberados para qualquer usuário verificar as informações armazenadas no banco de dados.
 Para as operações de escrita, é necessário a autenticação com usuário e senha com direitos administrativos (username = "admin", password = "admin"). Uma vez autenticado, é gerado um token no campo de resposta que deve ser inserido em "Authorize" para liberar as operações de PUT,POST e DELETE. O token gerado tem expiração de 30 minutos.
+
+Novos usuários podem ser cadastrados ou excluídos da base de dados para operações de escrita. A lista com os usuários cadastrados pode ser acompanhada no método GET da seção Login.
+
