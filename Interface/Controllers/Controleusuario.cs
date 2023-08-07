@@ -3,7 +3,9 @@ using CadastroFuncionarios.Classes;
 using CadastroFuncionarios.Context;
 using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Mvc;
+using Microsoft.EntityFrameworkCore;
 using Microsoft.IdentityModel.Tokens;
+using Serviço.Models;
 using System.ComponentModel.DataAnnotations;
 using System.IdentityModel.Tokens.Jwt;
 using System.Security.Claims;
@@ -24,14 +26,14 @@ public class LoginController : ControllerBase
     /// Autentica usuário para operações de escrita no banco de dados.
     /// </summary>
     [HttpPost, Route("login")]
-public IActionResult Login([FromQuery(Name = "Username"), Required] string username, [FromQuery(Name = "Senha"), Required] string password)
+    public IActionResult Login([FromQuery(Name = "Username"), Required] string username, [FromQuery(Name = "Senha"), Required] string password)
     {
         
-        if (Usuarios.VerificarUsuario(username,_context))
+        if (Usuarios.VerificarUsuario(username,_context)==false)
         {
             return Unauthorized($"Usuário {username} não está cadastrado.");
         }
-        else if (Usuarios.VerificarSenha(username, password, _context))
+        else if (Usuarios.VerificarSenha(username, password, _context) == false)
         {
             return Unauthorized("Senha incorreta. Verifique o campo digitado.");
         }
@@ -49,7 +51,7 @@ public IActionResult Login([FromQuery(Name = "Username"), Required] string usern
                 signingCredentials: signinCredentials
             );
             var token = new JwtSecurityTokenHandler().WriteToken(jwtSecurityToken);
-            return Ok($"Usuário logado com sucesso. Copie o token {token} e utilize para autenticar seu acesso.");
+            return Ok($"Usuário {username} logado com sucesso. Copie o token {token} e utilize para autenticar seu acesso.");
         }      
     }
     /// <summary>
@@ -58,15 +60,14 @@ public IActionResult Login([FromQuery(Name = "Username"), Required] string usern
     [HttpPost(Name = "CadastroUsuarios"), Authorize]
     public IActionResult CadastroUsuarios([FromQuery(Name = "Username"), Required] string username, [FromQuery(Name = "Digite uma senha"), Required] string password1, [FromQuery(Name = "Digite novamente a senha"), Required] string password2)
     {
-        var usuario = new Usuarios(_context);
+        var usuario = new Usuarios();
         usuario.Login = username;
         usuario.Password1 = password1;
         usuario.Password2 = password2;
         LoginDTO user = new();
-        user.ID = usuario.GerarUI();
         user.Usuario = username;
         user.Senha = password1;
-        return Ok(usuario.Cadastrar(user));
+        return Ok(usuario.Cadastrar(user,_context));
     }
     /// <summary>
     /// Exclui usuários de operações de escrita no banco de dados.
@@ -74,11 +75,16 @@ public IActionResult Login([FromQuery(Name = "Username"), Required] string usern
     [HttpDelete(Name = "DeleteUsuarios"), Authorize]
     public IActionResult DeleteUsuarios([FromQuery(Name = "Usuário"), Required] string username, [FromQuery(Name = "Senha cadastrada do Usuário"), Required] string password)
     {
-        var usuario = new Usuarios(_context);
-        LoginDTO user = new();
-        user.Usuario = username;
-        user.Senha = password;
-        user.ID = usuario.ObterUI(username);
-        return Ok(usuario.Excluir(user));
+        LoginDTO user2 = new();
+        user2.Usuario = username;
+        user2.Senha = password;
+        user2.UI = Usuarios.ObterUI(username,_context);
+        return Ok(Usuarios.Excluir(user2, _context));
     }
+
+    /*[HttpGet(Name = "GetUsuarios"),AllowAnonymous]    
+    public async Task<ActionResult<IEnumerable<LoginDTO>>> GetUsuarios()
+    {
+        return _context.Users.ToListAsync();
+    }*/
 }

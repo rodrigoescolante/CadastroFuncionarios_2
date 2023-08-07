@@ -74,7 +74,8 @@ builder.Services.AddAuthorization();
 
 builder.Services.AddControllers();
 
-builder.Services.AddDbContext<Db_Funcionarios>(option => {option.UseSqlServer(builder.Configuration.GetConnectionString("ConexaoDb"));});
+builder.Services.AddDbContext<Db_Funcionarios>(option => {option.UseSqlServer(builder.Configuration.GetConnectionString("ConexaoDb"));
+    option.EnableSensitiveDataLogging();});
 var app = builder.Build();
 
 // Configure the HTTP request pipeline.

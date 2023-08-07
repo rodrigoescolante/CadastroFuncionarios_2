@@ -2,26 +2,19 @@
 using CadastroFuncionarios.Classes;
 using CadastroFuncionarios.Context;
 
-
 namespace Aplicação.Models
 {
     public class Usuarios
     {
-        private readonly Db_Funcionarios _context;
-        public Usuarios(Db_Funcionarios context)
-        {
-            _context = context;
-            var registro = new LoginDTO();
-        }
         public string Login { get; set; }
         public string Password1 { get; set; }
         public string Password2 { get; set; }
 
-        public string Cadastrar(LoginDTO registro)
+        public string Cadastrar(LoginDTO registro, Db_Funcionarios context)
         {
-            if (VerificarUsuario(registro.Usuario,_context))
+            if (VerificarUsuario(registro.Usuario,context)==true)
             {
-                return "Usuário já possui login e senha.";
+                return $"Usuário {registro.Usuario} já possui login e senha.";
 
             }
             else if (!Password1.Equals(Password2))
@@ -30,36 +23,33 @@ namespace Aplicação.Models
             }
             else
             {
-                _context.Users.Add(registro);
-                _context.SaveChanges();
-                return "Usuário cadastrado com sucesso.";
+                context.Users.Add(registro);
+                context.SaveChanges();
+                return $"Usuário {registro.Usuario} foi cadastrado com sucesso.";
             }                
         }
-        public string Excluir(LoginDTO registro)
+        public static string Excluir(LoginDTO registro, Db_Funcionarios context)
         {
-            if (!VerificarUsuario(registro.Usuario, _context))
+            if (VerificarUsuario(registro.Usuario, context)==false)
             {
                 return $"{registro.Usuario} não está cadastrado no banco de dados. Digite um usuário cadastrado.";
             }
-            else if (registro.Usuario.Equals("admin"))
-            {
-                return "Não é possível excluir usuário do sistema.";
-            }
-            else if (VerificarSenha(registro.Usuario, registro.Senha,_context)==false)
+            else if (VerificarSenha(registro.Usuario, registro.Senha,context)==false)
                 {
                     return $"A senha digitada não é a cadastrada para {registro.Usuario}.";
                 }
             else
                 {
-                    _context.Users.Remove(registro);
-                    _context.SaveChangesAsync();
-                    return $"{registro.Usuario} não tem mais permissões de escrita no banco de dados.";
+                var user = context.Users.Find(registro.UI);
+                context.Users.Remove(user);
+                context.SaveChanges();
+                return $"Usuário {registro.Usuario} não tem mais permissões de escrita no banco de dados.";
                 }            
         }
         
         public static bool VerificarUsuario(string username, Db_Funcionarios context)
         {
-           if (context.Users.Any(u => u.Usuario == username))
+           if (context.Users.Any(u => u.Usuario == username) || username == "admin")
             {
                 return true;
             }
@@ -71,7 +61,7 @@ namespace Aplicação.Models
 
         public static bool VerificarSenha(string username, string senha, Db_Funcionarios context)
         {
-            if (context.Users.Any(u => u.Usuario == username && u.Senha == senha))
+            if (context.Users.Any(u => u.Usuario == username && u.Senha == senha) || (username == "admin" && senha == "admin"))
             {
                 return true;
             }
@@ -81,23 +71,12 @@ namespace Aplicação.Models
             }
         }             
 
-        public int GerarUI()
+            public static int ObterUI(string username, Db_Funcionarios context)
         {
-            Random numAleatorio = new();
-            int a;
-            do
-            {
-              a = numAleatorio.Next(1, 1000);
-            } while (_context.Users.Any(x => x.ID == a));
-            return a;
-        }
-
-        public int ObterUI(string username)
-        {
-            var user = _context.Users.FirstOrDefault(u => u.Usuario == username);
+            var user = context.Users.FirstOrDefault(u => u.Usuario == username);
             if (user != null)
             {
-                return user.ID;
+                return user.UI;
             }
             else
             {

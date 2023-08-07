@@ -36,7 +36,7 @@ namespace CadastroFuncionarios.Migrations
                 },
                 constraints: table =>
                 {
-                    table.PrimaryKey("PK_Users", x => x.ID);
+                    table.PrimaryKey("PK_Users", x => x.UI);
                 });
         }
 
