@@ -19,6 +19,11 @@
             Exclui usuários de operações de escrita no banco de dados.
             </summary>    
         </member>
+        <member name="M:LoginController.GetUsuarios">
+            <summary>
+            Lista o nome dos usuários com permissão de escrita no banco de dados.
+            </summary>
+        </member>
         <member name="M:CadastroFuncionarios.Controller.FuncionariosController.GetFuncionarios">
             <summary>
             Mostra todos os funcionários cadastrados no banco de dados.

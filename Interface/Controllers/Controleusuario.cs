@@ -82,9 +82,20 @@ public class LoginController : ControllerBase
         return Ok(Usuarios.Excluir(user2, _context));
     }
 
-    /*[HttpGet(Name = "GetUsuarios"),AllowAnonymous]    
-    public async Task<ActionResult<IEnumerable<LoginDTO>>> GetUsuarios()
+    /// <summary>
+    /// Lista o nome dos usuários com permissão de escrita no banco de dados.
+    /// </summary>
+    [HttpGet(Name = "GetUsuarios"),AllowAnonymous]    
+    public ActionResult<List<string>> GetUsuarios()
     {
-        return _context.Users.ToListAsync();
-    }*/
+        var usuarios = _context.Users.Select(u => u.Usuario).ToList();
+        if (usuarios.IsNullOrEmpty())
+        {
+            return BadRequest("Nenhum usuário com direitos administrativos cadastrado.");
+        }
+        else
+        {
+            return usuarios;
+        }
+    }
 }
