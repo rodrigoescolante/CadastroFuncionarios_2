@@ -3245,7 +3245,7 @@
       "projectName": "Aplicação",
       "projectPath": "C:\\Users\\rodri\\source\\repos\\rodrigoescolante\\CadastroFuncionarios_2\\Aplicação\\Aplicação.csproj",
       "packagesPath": "C:\\Users\\rodri\\.nuget\\packages\\",
-      "outputPath": "C:\\Users\\rodri\\Source\\Repos\\rodrigoescolante\\CadastroFuncionarios_2\\Aplicação\\obj\\",
+      "outputPath": "C:\\Users\\rodri\\source\\repos\\rodrigoescolante\\CadastroFuncionarios_2\\Aplicação\\obj\\",
       "projectStyle": "PackageReference",
       "fallbackFolders": [
         "C:\\Program Files (x86)\\Microsoft Visual Studio\\Shared\\NuGetPackages"

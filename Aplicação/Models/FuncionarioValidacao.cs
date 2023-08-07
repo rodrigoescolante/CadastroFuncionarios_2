@@ -77,10 +77,6 @@ namespace Serviço.Models
             {
                 return funcExists;
             }
-            else if (func.ID != id)
-            {
-                return "O ID do funcionário não pode ser alterado. Utilize no campo id, o ID informado na busca.";
-            }
             else if (existingFuncionario != null)
             {
                 return "Este nome já está cadastrado para outro funcionário. Digite um nome válido.";
@@ -96,11 +92,7 @@ namespace Serviço.Models
         }
         private static string Validacao(Funcionario func)
         {
-            if (func.Nome.IsNullOrEmpty())
-            {
-                return "O nome é obrigatório";
-            }  
-            else if (func.Idade < 18 || func.Idade > 65)
+            if (func.Idade < 18 || func.Idade > 65)
             {
                 return "A idade deve estar entre 18 e 65 anos.";
             }

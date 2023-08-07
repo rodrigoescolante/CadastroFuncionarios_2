@@ -3469,9 +3469,9 @@
   "project": {
     "version": "1.0.0",
     "restore": {
-      "projectUniqueName": "C:\\Users\\rodri\\source\\repos\\rodrigoescolante\\CadastroFuncionarios_2\\Database\\Database.csproj",
+      "projectUniqueName": "C:\\Users\\rodri\\Source\\Repos\\rodrigoescolante\\CadastroFuncionarios_2\\Database\\Database.csproj",
       "projectName": "Database",
-      "projectPath": "C:\\Users\\rodri\\source\\repos\\rodrigoescolante\\CadastroFuncionarios_2\\Database\\Database.csproj",
+      "projectPath": "C:\\Users\\rodri\\Source\\Repos\\rodrigoescolante\\CadastroFuncionarios_2\\Database\\Database.csproj",
       "packagesPath": "C:\\Users\\rodri\\.nuget\\packages\\",
       "outputPath": "C:\\Users\\rodri\\Source\\Repos\\rodrigoescolante\\CadastroFuncionarios_2\\Database\\obj\\",
       "projectStyle": "PackageReference",

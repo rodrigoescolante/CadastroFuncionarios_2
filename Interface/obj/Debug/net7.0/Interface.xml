@@ -4,19 +4,25 @@
         <name>Interface</name>
     </assembly>
     <members>
-        <member name="M:LoginController.Login(LoginDTO)">
-             <summary>
-             Autentica usuário para operações de escrita no banco de dados.
-             </summary>
-             <remarks>
-             Exemplo de requisição:
-             
-                 {
-                    "username": "admin",
-                    "password": "admin"
-                 }
-            
-             </remarks>
+        <member name="M:LoginController.Login(System.String,System.String)">
+            <summary>
+            Autentica usuário para operações de escrita no banco de dados.
+            </summary>
+        </member>
+        <member name="M:LoginController.CadastroUsuarios(System.String,System.String,System.String)">
+            <summary>
+            Cadastra novos usuários para operações de escrita no banco de dados.
+            </summary>
+        </member>
+        <member name="M:LoginController.DeleteUsuarios(System.String,System.String)">
+            <summary>
+            Exclui usuários de operações de escrita no banco de dados.
+            </summary>    
+        </member>
+        <member name="M:LoginController.GetUsuarios">
+            <summary>
+            Lista o nome dos usuários com permissão de escrita no banco de dados.
+            </summary>
         </member>
         <member name="M:CadastroFuncionarios.Controller.FuncionariosController.GetFuncionarios">
             <summary>
@@ -27,45 +33,33 @@
             <summary>
             Mostra as informações de um funcionário cadastrado no banco de dados.
             </summary>
+            /// <remarks>
+            Informe o ID do funcionário obter informações.
+            </remarks>
         </member>
-        <member name="M:CadastroFuncionarios.Controller.FuncionariosController.PutFuncionarios(System.Int32,CadastroFuncionarios.Classes.Funcionario)">
+        <member name="M:CadastroFuncionarios.Controller.FuncionariosController.PutFuncionarios(System.Int32,System.String,System.Int32,System.String,System.String)">
              <summary>
              Modifica o cadastro de um funcionário no banco de dados.
              </summary>
             <remarks>
-             Exemplo de requisição:
-             
-                 {
-                    "id": 1,
-                    "Nome": "Item #1",
-                    "Idade": 23,
-                    "Genero" "Masculino",
-                    "Email": "teste@teste.com"
-                 }
-            
+             Preencha os campos com os dados do funcionário obtidos pelo método GET, modificando os dados que deseja no cadastro.
              </remarks>
         </member>
-        <member name="M:CadastroFuncionarios.Controller.FuncionariosController.PostFuncionarios(CadastroFuncionarios.Classes.Funcionario)">
-             <summary>
-             Cadastra um novo funcionário no banco de dados.
-             </summary>
-             <remarks>
-             Exemplo de requisição:
-             
-                 {
-                    "id": 1,
-                    "Nome": "Item #1",
-                    "Idade": 23,
-                    "Genero" "Masculino",
-                    "Email": "teste@teste.com"
-                 }
-            
-             </remarks>
+        <member name="M:CadastroFuncionarios.Controller.FuncionariosController.PostFuncionarios(System.Int32,System.String,System.Int32,System.String,System.String)">
+            <summary>
+            Cadastra um novo funcionário no banco de dados.
+            </summary>
+            <remarks>
+            Preencha os campos com os dados do funcionário que deseja cadastrar no banco de dados.
+            </remarks>
         </member>
         <member name="M:CadastroFuncionarios.Controller.FuncionariosController.DeleteFuncionarios(System.Int32)">
             <summary>
             Deleta um funcionário do banco de dados.
             </summary>
+            /// <remarks>
+            Informe o ID do funcionário que deseja excluir do banco de dados.
+            </remarks>
         </member>
     </members>
 </doc>
